@@ -137,31 +137,38 @@ li:hover {
 	width: 100%;
 
 }
-#contact {
+#contact,
+#login_form {
 	width: 50%;
 margin: auto;
 }
-#contact > * {
+#contact,
+#login_form 
+ > * {
 	text-align: center;
 
 }
-#contact h2{
+#contact h2,
+#login_form h2{
 	margin-bottom: 20px;
 }
-#contact form {
+#contact form,
+#login_form form {
 	text-align: left;
 	margin-top:30px;
 	display: flex;
 	flex-direction: column;
 }
 
-#contact input {
+#contact input,
+#login_form input {
 	height: 50px;
 	font-size: 1.2em;
 	border: none;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
-#contact label {
+#contact label,
+#login_form label {
 	margin: 2em 0 1em 0;
 }
 #contact textarea {
@@ -184,5 +191,152 @@ footer nav ul {
 	display: flex;
 	justify-content: flex-end;
 	margin: 2em
+}
+
+/* Mes modifications */
+
+
+#mode_edition {
+	background-color: black;
+	color: white;
+	padding: 10px 0px;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	z-index: 1000; 
+	display: flex;
+	justify-content: center;
+}
+
+.logout_hidden {
+    display: none;
+	cursor: pointer;
+}
+
+
+#introduction img { 
+
+	margin-left: 0px;
+}
+
+.filters {
+	display: flex;
+	justify-content: center;
+	gap: 10px;
+	margin-bottom: 40px;
+}
+
+#portfolio button { 
+	color: #1D6154;
+	background-color: white;
+	border-radius: 20px;
+	border-color:#1D6154 ;
+	border-width: 1px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 15px;
+	padding: 10px;
+}
+
+#portfolio button:hover {
+	background-color:#1D6154 ;
+	color: white ;
+}
+
+.travail { 
+	display: flex;
+	flex-direction: column-reverse;
+}
+
+#forgotten_password {
+	font-weight: 500;
+	font-size: 15px;
+	text-decoration: underline;
+}
+
+#loginLink {
+	cursor: pointer;
+  }
+  
+#login_bold {
+	font-weight: bold;
+}
+
+.projets {
+    display: flex;
+    justify-content: center;
+}
+
+#modif {
+    margin: 13px 10px;
+	cursor: pointer;
+}
+
+
+/* Modale */
+
+.modal {
+	position: fixed;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	background:rgba(0, 0, 0, 0.20);
+}
+
+h3 {
+	font-size: 22px;
+	font-weight: 400;
+	margin: 30px;
+}
+
+
+.modal-wrapper {
+    display: flex;
+    flex-direction: column; 
+    align-items: center;
+	width: 430px;
+	padding: 20px 20px 20px 40px;
+	background-color: white;
+	border-radius: 10px;
+	 
+}
+
+#travaux-modal1 { 
+	display: flex;
+	flex-wrap: wrap;
+	gap: 10px;
+	padding-bottom: 40px;
+	margin-bottom: 30px;
+	border-bottom: 2px solid lightgrey;
+}
+
+#travaux-modal1 img { 
+
+	width: 75px;
+	height: 100px;
+	margin-bottom: 10px;
+	
+}
+
+
+
+
+.modal-wrapper button {
+	color: white;
+	background-color:#1D6154;
+	border-radius: 20px;
+	border-color:#1D6154 ;
+	border-width: 1px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 12px;
+	padding: 10px 25px;
+	display: flex;
+	margin-bottom: 20px;
 }
 
