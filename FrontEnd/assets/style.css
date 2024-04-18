@@ -209,11 +209,6 @@ footer nav ul {
 	justify-content: center;
 }
 
-.logout_hidden {
-    display: none;
-	cursor: pointer;
-}
-
 
 #introduction img { 
 
@@ -255,6 +250,12 @@ footer nav ul {
 	text-decoration: underline;
 }
 
+.logout_hidden {
+    display: none;
+	cursor: pointer;
+}
+
+
 #loginLink {
 	cursor: pointer;
   }
@@ -268,9 +269,10 @@ footer nav ul {
     justify-content: center;
 }
 
-#modif {
+#js-modal {
     margin: 13px 10px;
-	cursor: pointer;
+	display: flex;
+	flex-direction: row-reverse;
 }
 
 

@@ -1,5 +1,6 @@
 
 
+
 const elementToDelete = document.getElementById("elementToDelete");
 if (elementToDelete) {
     elementToDelete.remove();
@@ -10,13 +11,7 @@ const tokenPresent = sessionStorage.getItem("token");
 const loginButton = document.getElementById("loginLink");
 const logoutButton = document.querySelector(".logout_hidden");
 
-// Modifier l'affichage du paragraphe "modifier" en fonction de la présence du token
-const afficherModif = document.getElementById("modif");
-if (tokenPresent) {
-    afficherModif.textContent = "modifier";
-} else {
-    afficherModif.style.display = "none";
-}
+
 
 // Si un token est présent, affiche le bouton "logout" et cache le bouton "login", sinon fait l'inverse
 if (tokenPresent) {
@@ -32,7 +27,4 @@ logoutButton.addEventListener("click", () => {
     sessionStorage.removeItem("token");
     window.location.href = "/FrontEnd/index.html";
 });
-
-
-
 
