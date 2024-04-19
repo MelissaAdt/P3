@@ -30,6 +30,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         works.forEach(work => {
             const article = document.createElement("article");
+            article.setAttribute("data-work-id", work.id);
             const img = document.createElement("img");
             img.src = work.imageUrl;
             article.appendChild(img);
@@ -94,15 +95,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     async function deleteElement(workId) {
-    try {
-        const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
-            method: "DELETE"
-        });
-        if (!response.ok) {
-            throw new Error("La suppression du projet a échoué");
+        try {
+            const response = await fetch("http://localhost:5678/api/works/" + workId, {
+                method: "DELETE"
+            });
+            if (!response.ok) {
+                throw new Error("La suppression du projet a échoué");
+            } else {
+                // Supprimer l'élément correspondant de la modale
+                const articleToRemove = document.querySelector('#travaux-modal1 article[data-work-id="' + workId + '"]');
+                if (articleToRemove) {
+                    articleToRemove.remove();
+                }
+            }
+        } catch (error) {
+            throw new Error("Erreur lors de la suppression du projet");
         }
-    } catch (error) {
-        throw new Error("Erreur lors de la suppression du projet");
     }
-}
 });
