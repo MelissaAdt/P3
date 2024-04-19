@@ -78,14 +78,31 @@ document.addEventListener("DOMContentLoaded", function () {
     function createTrashIcon(workId) {
         const trashIcon = document.createElement("i");
         trashIcon.classList.add("fa-solid", "fa-trash-can");
-        trashIcon.addEventListener("click", (e) => {
+        trashIcon.addEventListener("click", async (e) => {
             e.preventDefault();
             if (confirm("Voulez-vous vraiment supprimer ce projet ?\nCette action est irréversible.")) {
-                deleteElement(workId);
+                try {
+                    await deleteElement(workId);
+                    const articleToRemove = trashIcon.parentElement;
+                    articleToRemove.remove();
+                } catch (error) {
+                    console.error("Erreur lors de la suppression du projet :", error);
+                }
             }
         });
         return trashIcon;
     }
 
-    function deleteElement(workId) { }
+    async function deleteElement(workId) {
+    try {
+        const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+            method: "DELETE"
+        });
+        if (!response.ok) {
+            throw new Error("La suppression du projet a échoué");
+        }
+    } catch (error) {
+        throw new Error("Erreur lors de la suppression du projet");
+    }
+}
 });
