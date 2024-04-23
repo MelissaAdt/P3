@@ -21,6 +21,57 @@ document.addEventListener("DOMContentLoaded", function () {
         target.style.display = "none";
         target.setAttribute("aria-hidden", "true");
     };
+
+    // Gestionnaire d'événements pour le bouton "Ajouter une photo"
+    const ajouterPhotoButton = document.querySelector('.ajouter_photo');
+    ajouterPhotoButton.addEventListener('click', function() {
+        // Réinitialiser le contenu de la modale
+        const modalContent = document.getElementById('travaux-modal1');
+        modalContent.innerHTML = ''; // Effacer le contenu existant de la modale
+
+    // Créer le bouton de retour
+    const retourButton = document.createElement("button");
+    retourButton.classList.add("retour-button");
+    retourButton.setAttribute("aria-label", "Retour à la modale précédente");
+
+    // Créer l'icône de la flèche et l'ajouter au bouton
+    const retourIcon = document.createElement("i");
+    retourIcon.classList.add("fa-solid", "fa-arrow-left");
+    retourButton.appendChild(retourIcon);
+
+
+
+    // Ajouter le bouton à la modale
+    document.querySelector("#modal1 .modal-wrapper").prepend(retourButton);
+
+
+         // Ajouter les champs "Titre" et "Catégorie"
+    modalContent.innerHTML += `
+    <div id="div_ajout_photo_form">
+    <form id="ajoutPhotoForm">
+            <label for="titre">Titre</label>
+            <input type="text" id="titre" name="titre">
+            <label for="categorie">Catégorie</label>
+            <select id="categorie" name="categorie">
+                <option value="objets">Objets</option>
+                <option value="appartements">Appartements</option>
+                <option value="hotels">Hôtels et restaurants</option>
+            </select>
+        </form>
+   </div>
+    `;
+
+       // Modifier le texte de la modale
+       const modalTitle = document.querySelector('#modal1 h3');
+       modalTitle.textContent = "Ajout photo"; // Modifier le texte du titre de la modale
+
+       // Modifier le texte et la classe du bouton "Ajouter une photo"
+       ajouterPhotoButton.textContent = "Valider";
+       ajouterPhotoButton.classList.add('valider'); // Ajouter une classe au bouton
+
+       // Afficher la modale
+       openModal1({ target: { getAttribute: () => "#modal1" } }); // Appeler la fonction openModal1 avec un objet simulé pour l'événement
+   });
     
 
     async function modalWorks() {

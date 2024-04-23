@@ -93,6 +93,7 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+	cursor: pointer;
 }
 
 li:hover {
@@ -344,6 +345,7 @@ h3 {
 	padding-bottom: 40px;
 	margin-bottom: 30px;
 	border-bottom: 2px solid lightgrey;
+	width: 100%;
 }
 
 #travaux-modal1 article {
@@ -363,10 +365,6 @@ h3 {
 	
 }
 	
-  
-
-
-
 
 #travaux-modal1 img { 
 
@@ -375,6 +373,19 @@ h3 {
 	margin-bottom: 10px;
 	
 }
+
+/* Modale 2 */
+
+.retour-button {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+	font-size: 20px;
+    cursor: pointer;
+	border: none;
+    background-color: white;
+}
+
 
 
 .ajouter_photo {
@@ -391,3 +402,26 @@ h3 {
 	margin-bottom: 20px;
 }
 
+#div_ajout_photo_form { 
+	display: flex;
+	justify-content: center;
+	width: 100%;
+
+}
+
+#ajoutPhotoForm label {
+	display: flex;
+	padding-bottom: 10px;
+    border: 0px;
+    font: inherit;
+    vertical-align: baseline;
+}
+
+#titre, #categorie { 
+	margin-bottom:  15px;
+	width: 100%;
+	height: 30px;
+    font-size: 15px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+}
