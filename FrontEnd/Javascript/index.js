@@ -1,9 +1,9 @@
 
 
 document.addEventListener("DOMContentLoaded", function() {
-    const token = sessionStorage.getItem("token");
+    const token = localStorage.getItem("token");
 
-    // Fonction pour mettre à jour la galerie
+    // Générer la galerie de travaux 
     const updateGallery = async (filter = null) => {
         const response = await fetch("http://localhost:5678/api/works");
         const projets = await response.json();
@@ -27,25 +27,24 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     };
 
-    // Appel initial pour mettre à jour la galerie
+
     updateGallery();
 
+
+    // Création de la fonction pour les filtres 
     async function fetchCategories() {
         const response = await fetch("http://localhost:5678/api/categories");
         const categories = await response.json();
 
-        // Appel createFilterButtons uniquement si l'utilisateur n'est pas connecté
         if (!token) {
             createFilterButtons(categories);
         }
     }
 
-    // Appel fetchCategories uniquement si l'utilisateur n'est pas connecté
     if (!token) {
         fetchCategories();
     }
 
-    // Fonction pour créer les boutons de filtre
     const createFilterButtons = (categories) => {
         const filtersContainer = document.querySelector(".filters");
 
@@ -54,17 +53,15 @@ document.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        // Supprimez les filtres existants s'il y en a
         filtersContainer.innerHTML = "";
 
 
 
-
-            // Ajoutez un bouton "Tous" pour afficher tous les travaux
     const allButton = createButton("Tous", () => updateGallery());
     filtersContainer.appendChild(allButton);
 
-        // Créez les boutons de filtre uniquement si l'utilisateur n'est pas connecté
+
+     // Créer les boutons de filtre uniquement si l'utilisateur n'est pas connecté
         categories.forEach((category) => {
             const button = createButton(category.name, () =>
                 updateGallery(category.name)
@@ -72,12 +69,9 @@ document.addEventListener("DOMContentLoaded", function() {
             filtersContainer.appendChild(button);
         });
 
-
-        // Affiche tous les travaux dès le chargement
         allButton.click();
     };
 
-    // Création du bouton et appel à updateGallery
     const createButton = (text, clickHandler) => {
         const button = document.createElement("button");
         button.textContent = text;
@@ -101,7 +95,7 @@ document.addEventListener("DOMContentLoaded", function() {
         script.src = "/FrontEnd/Javascript/loggedInScript.js";
         document.head.appendChild(script);
     } else {
-        // Code à exécuter si l'utilisateur n'est pas connecté
+        
         if (modifierParagraph) {
             modifierParagraph.remove();
         }

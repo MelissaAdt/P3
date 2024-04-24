@@ -1,13 +1,29 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
+
+
+    // Fonction pour ouvrir la modale
     const openModal1 = function (e) {
         e.preventDefault();
         const target = document.querySelector(e.target.getAttribute("href"));
         target.style.display = "flex";
         target.removeAttribute("aria-hidden");
 
-        // Ajouter un gestionnaire d'événement pour fermer la modale en cliquant en dehors d'elle
+    
+            // Ajouter la flèche de retour uniquement si c'est la deuxième modale qui est ouverte
+        if (e.target.classList.contains("ajouter_photo")) {
+            const retourButton = document.createElement("button");
+            retourButton.classList.add("retour-button");
+            retourButton.setAttribute("aria-label", "Retour à la modale précédente");
+            const retourIcon = document.createElement("i");
+            retourIcon.classList.add("fa-solid", "fa-arrow-left");
+            retourButton.appendChild(retourIcon);
+            document.querySelector("#modal1 .modal-wrapper").prepend(retourButton);
+        
+        }
+
+    // Gestionnaire d'événement pour fermer la modale en cliquant en dehors d'elle
         const modalBackground = document.querySelector('.modal');
         modalBackground.addEventListener('click', function(event) {
             if (event.target === modalBackground) {
@@ -17,63 +33,54 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     const closeModal1 = function () {
-        const target = document.getElementById("modal1"); // Cibler directement l'élément de la modale
+        const target = document.getElementById("modal1"); 
         target.style.display = "none";
         target.setAttribute("aria-hidden", "true");
-    };
+
+      
+};
+    
 
     // Gestionnaire d'événements pour le bouton "Ajouter une photo"
-    const ajouterPhotoButton = document.querySelector('.ajouter_photo');
-    ajouterPhotoButton.addEventListener('click', function() {
-        // Réinitialiser le contenu de la modale
-        const modalContent = document.getElementById('travaux-modal1');
-        modalContent.innerHTML = ''; // Effacer le contenu existant de la modale
+    const ajouterPhotoButton = document.querySelector(".ajouter_photo");
+    ajouterPhotoButton.addEventListener("click", function() {
+       
+        originalModalContent = document.getElementById("travaux-modal1").innerHTML;
 
-    // Créer le bouton de retour
-    const retourButton = document.createElement("button");
-    retourButton.classList.add("retour-button");
-    retourButton.setAttribute("aria-label", "Retour à la modale précédente");
+    
+        const modalContent = document.getElementById("travaux-modal1");
+        modalContent.innerHTML = ''; 
 
-    // Créer l'icône de la flèche et l'ajouter au bouton
-    const retourIcon = document.createElement("i");
-    retourIcon.classList.add("fa-solid", "fa-arrow-left");
-    retourButton.appendChild(retourIcon);
+        
+
+   
+        const retourButton = document.createElement("button");
+        retourButton.classList.add("retour-button");
+        retourButton.setAttribute("aria-label", "Retour à la modale précédente");
+        const retourIcon = document.createElement("i");
+        retourIcon.classList.add("fa-solid", "fa-arrow-left");
+        retourButton.appendChild(retourIcon);
+        document.querySelector("#modal1 .modal-wrapper").prepend(retourButton)
 
 
 
-    // Ajouter le bouton à la modale
+    
     document.querySelector("#modal1 .modal-wrapper").prepend(retourButton);
 
 
-         // Ajouter les champs "Titre" et "Catégorie"
-    modalContent.innerHTML += `
-    <div id="div_ajout_photo_form">
-    <form id="ajoutPhotoForm">
-            <label for="titre">Titre</label>
-            <input type="text" id="titre" name="titre">
-            <label for="categorie">Catégorie</label>
-            <select id="categorie" name="categorie">
-                <option value="objets">Objets</option>
-                <option value="appartements">Appartements</option>
-                <option value="hotels">Hôtels et restaurants</option>
-            </select>
-        </form>
-   </div>
-    `;
-
-       // Modifier le texte de la modale
+       
        const modalTitle = document.querySelector('#modal1 h3');
-       modalTitle.textContent = "Ajout photo"; // Modifier le texte du titre de la modale
+       modalTitle.textContent = "Ajout photo"; 
 
-       // Modifier le texte et la classe du bouton "Ajouter une photo"
+       
        ajouterPhotoButton.textContent = "Valider";
-       ajouterPhotoButton.classList.add('valider'); // Ajouter une classe au bouton
+       ajouterPhotoButton.classList.add('valider'); 
 
-       // Afficher la modale
-       openModal1({ target: { getAttribute: () => "#modal1" } }); // Appeler la fonction openModal1 avec un objet simulé pour l'événement
+       
+       openModal1({ target: { getAttribute: () => "#modal1" } }); 
    });
     
-
+   // Fonction asynchrone pour charger les projets de l'API dans la modale
     async function modalWorks() {
         const response = await fetch("http://localhost:5678/api/works");
         const works = await response.json();
@@ -86,20 +93,20 @@ document.addEventListener("DOMContentLoaded", function () {
             img.src = work.imageUrl;
             article.appendChild(img);
 
-            // Créer l'icône poubelle
+           
             const trashIcon = createTrashIcon(work.id);
             article.appendChild(trashIcon);
 
             modalGallery.appendChild(article);
         });
 
-        // Créer l'élément avec l'ID "js-modal" et attacher l'événement
+        // Créer l'élément de lien modal et attacher l'événement pour ouvrir la modale
         const jsModal = document.createElement("a");
         jsModal.id = "js-modal";
         jsModal.href = "#modal1";
         jsModal.textContent = "modifier ";
 
-        // Créer et ajouter l'icône FontAwesome à côté du texte "modifier"
+        
         const icon = document.createElement("i");
         icon.classList.add("fa-regular", "fa-pen-to-square");
         jsModal.appendChild(icon);
@@ -107,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".projets").appendChild(jsModal);
         jsModal.addEventListener("click", openModal1);
 
-        // Attacher l'événement de clic pour fermer la modale en cliquant en dehors d'elle
+        
         const modalBackground = document.querySelector('.modal');
         modalBackground.addEventListener('click', function(event) {
             if (event.target === modalBackground) {
@@ -115,7 +122,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Ajouter la croix en haut à droite de la modale et attacher l'événement pour fermer la modale
+      
         const closeButton = document.createElement("button");
         closeButton.classList.add("close-button");
         closeButton.setAttribute("aria-label", "Fermer la modale");
@@ -124,7 +131,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#modal1 .modal-wrapper").prepend(closeButton);
     }
 
-    // Appeler la fonction pour charger les projets de l'API
+   
     modalWorks();
 
     function createTrashIcon(workId) {
@@ -144,23 +151,40 @@ document.addEventListener("DOMContentLoaded", function () {
         });
         return trashIcon;
     }
-
+    
+    // Fonction asynchrone pour supprimer un projet de l'API
     async function deleteElement(workId) {
         try {
-            const response = await fetch("http://localhost:5678/api/works/" + workId, {
-                method: "DELETE"
-            });
-            if (!response.ok) {
-                throw new Error("La suppression du projet a échoué");
-            } else {
-                // Supprimer l'élément correspondant de la modale
-                const articleToRemove = document.querySelector('#travaux-modal1 article[data-work-id="' + workId + '"]');
-                if (articleToRemove) {
-                    articleToRemove.remove();
+           
+            const token = localStorage.getItem("token");
+            console.log("Token récupéré du localStorage:", token); 
+    
+            if (!token) {
+                console.error("Le token d'authentification est manquant.");
+                return;
+            }
+    
+            
+            const response = await fetch(`http://localhost:5678/api/works/${workId}`, {
+                method: "DELETE",
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                    'Content-Type': 'application/json'
                 }
+            });
+    
+           
+            if (!response.ok) {
+                if (response.status === 401) {
+                    console.error("Accès non autorisé : le token n'a pas les permissions nécessaires.");
+                } else {
+                    console.error("Erreur lors de la suppression du projet :", response.statusText);
+                }
+            } else {
+                console.log("Projet supprimé avec succès.");
+                
             }
         } catch (error) {
-            throw new Error("Erreur lors de la suppression du projet");
+            console.error("Erreur lors de la suppression du projet :", error.message);
         }
-    }
-});
+    }});

@@ -7,7 +7,8 @@ if (elementToDelete) {
 }
 
 // Vérifier si l'utilisateur est connecté (par exemple, en vérifiant l'existence du token)
-const tokenPresent = sessionStorage.getItem("token");
+const tokenPresent = localStorage.getItem("token");
+console.log(tokenPresent)
 const loginButton = document.getElementById("loginLink");
 const logoutButton = document.querySelector(".logout_hidden");
 
@@ -22,9 +23,9 @@ if (tokenPresent) {
     logoutButton.classList.add("logout_hidden");
 }
 
-// Ajoute un gestionnaire d'événements au clic sur le bouton "logout"
+
 logoutButton.addEventListener("click", () => {
-    sessionStorage.removeItem("token");
+    localStorage.removeItem("token");
     window.location.href = "/FrontEnd/index.html";
 });
 
