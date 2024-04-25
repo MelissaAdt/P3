@@ -1,84 +1,45 @@
 
 
 document.addEventListener("DOMContentLoaded", function () {
-
-
-    // Fonction pour ouvrir la modale
+    
     const openModal1 = function (e) {
         e.preventDefault();
         const target = document.querySelector(e.target.getAttribute("href"));
         target.style.display = "flex";
         target.removeAttribute("aria-hidden");
-
-    
-            // Ajouter la flèche de retour uniquement si c'est la deuxième modale qui est ouverte
-        if (e.target.classList.contains("ajouter_photo")) {
-            const retourButton = document.createElement("button");
-            retourButton.classList.add("retour-button");
-            retourButton.setAttribute("aria-label", "Retour à la modale précédente");
-            const retourIcon = document.createElement("i");
-            retourIcon.classList.add("fa-solid", "fa-arrow-left");
-            retourButton.appendChild(retourIcon);
-            document.querySelector("#modal1 .modal-wrapper").prepend(retourButton);
-        
-        }
-
-    // Gestionnaire d'événement pour fermer la modale en cliquant en dehors d'elle
-        const modalBackground = document.querySelector('.modal');
-        modalBackground.addEventListener('click', function(event) {
-            if (event.target === modalBackground) {
-                closeModal1(event);
-            }
-        });
     };
 
-    const closeModal1 = function () {
-        const target = document.getElementById("modal1"); 
-        target.style.display = "none";
-        target.setAttribute("aria-hidden", "true");
-
-      
-};
     
-
-    // Gestionnaire d'événements pour le bouton "Ajouter une photo"
-    const ajouterPhotoButton = document.querySelector(".ajouter_photo");
-    ajouterPhotoButton.addEventListener("click", function() {
+    const openModal2 = function () {
+     
+        closeModal1();
        
-        originalModalContent = document.getElementById("travaux-modal1").innerHTML;
-
-    
-        const modalContent = document.getElementById("travaux-modal1");
-        modalContent.innerHTML = ''; 
-
-        
+        const modal2 = document.getElementById("modal2");
+        modal2.style.display = "flex";
+        modal2.removeAttribute("aria-hidden");
+    };
 
    
-        const retourButton = document.createElement("button");
-        retourButton.classList.add("retour-button");
-        retourButton.setAttribute("aria-label", "Retour à la modale précédente");
-        const retourIcon = document.createElement("i");
-        retourIcon.classList.add("fa-solid", "fa-arrow-left");
-        retourButton.appendChild(retourIcon);
-        document.querySelector("#modal1 .modal-wrapper").prepend(retourButton)
+    const closeModal1 = function () {
+        const target = document.getElementById("modal1");
+        target.style.display = "none";
+        target.setAttribute("aria-hidden", "true");
+    };
 
+    // Fonction pour fermer la modale 2
+    const closeModal2 = function () {
+        const target = document.getElementById("modal2");
+        target.style.display = "none";
+        target.setAttribute("aria-hidden", "true");
+     };
 
+        document.addEventListener('click', function (event) {
+            if (event.target.classList.contains('modal')) {
+                closeModal1();
+                closeModal2();
+            }
+        });
 
-    
-    document.querySelector("#modal1 .modal-wrapper").prepend(retourButton);
-
-
-       
-       const modalTitle = document.querySelector('#modal1 h3');
-       modalTitle.textContent = "Ajout photo"; 
-
-       
-       ajouterPhotoButton.textContent = "Valider";
-       ajouterPhotoButton.classList.add('valider'); 
-
-       
-       openModal1({ target: { getAttribute: () => "#modal1" } }); 
-   });
     
    // Fonction asynchrone pour charger les projets de l'API dans la modale
     async function modalWorks() {
@@ -114,24 +75,44 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector(".projets").appendChild(jsModal);
         jsModal.addEventListener("click", openModal1);
 
-        
-        const modalBackground = document.querySelector('.modal');
-        modalBackground.addEventListener('click', function(event) {
-            if (event.target === modalBackground) {
-                closeModal1(event);
-            }
-        });
+        // Gestionnaire d'événement pour ouvrir la modale 2 lorsque le bouton "Ajouter une photo" est cliqué
+        const ajouterPhotoButton = document.getElementById("button_ajouter_photo");
+        ajouterPhotoButton.addEventListener("click", function () {
+    
+        closeModal1();
+        openModal2();
+    });
 
-      
+
+
         const closeButton = document.createElement("button");
         closeButton.classList.add("close-button");
         closeButton.setAttribute("aria-label", "Fermer la modale");
         closeButton.innerHTML = '<i class="fa-solid fa-times"></i>';
         closeButton.addEventListener("click", closeModal1);
         document.querySelector("#modal1 .modal-wrapper").prepend(closeButton);
-    }
+
+        // Créer la croix de fermeture pour la modale 2
+        const closeButtonModal2 = document.createElement("button");
+        closeButtonModal2.classList.add("close-button");
+        closeButtonModal2.setAttribute("aria-label", "Fermer la modale");
+        closeButtonModal2.innerHTML = '<i class="fa-solid fa-times"></i>';
+        closeButtonModal2.addEventListener('click', closeModal2);
+        document.querySelector("#modal2 .modal-wrapper").prepend(closeButtonModal2);
+            
+        // Créer la flèche de retour pour la modale 2
+        const backButtonModal2 = document.createElement("button");
+        backButtonModal2.classList.add("back-button");
+        backButtonModal2.setAttribute("aria-label", "Retour à la modale 1");
+        backButtonModal2.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
+        document.querySelector("#modal2 .modal-wrapper").prepend(backButtonModal2);
+
+        
+            
+        }
 
    
+        
     modalWorks();
 
     function createTrashIcon(workId) {
@@ -187,4 +168,5 @@ document.addEventListener("DOMContentLoaded", function () {
         } catch (error) {
             console.error("Erreur lors de la suppression du projet :", error.message);
         }
+
     }});

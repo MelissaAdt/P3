@@ -376,7 +376,7 @@ h3 {
 
 /* Modale 2 */
 
-.retour-button {
+.back-button {
     position: absolute;
     top: 10px;
     left: 10px;
@@ -388,7 +388,8 @@ h3 {
 
 
 
-.ajouter_photo {
+#button_ajouter_photo,
+#button_valider {
 	color: white;
 	background-color:#1D6154;
 	border-radius: 20px;
