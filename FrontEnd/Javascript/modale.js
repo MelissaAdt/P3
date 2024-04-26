@@ -83,6 +83,25 @@ document.addEventListener("DOMContentLoaded", function () {
             modalGallery.appendChild(article);
         });
 
+                // Gestionnaire d'événement pour le bouton Valider dans la modale 2
+        document.getElementById("button_valider").addEventListener("click", function () {
+            const form = document.getElementById("form_ajout_photo");
+            const formData = new FormData(form); 
+
+            
+            fetch("http://localhost:5678/api/works", { 
+                method: "POST",
+                body: formData
+            })
+            .then(response => {
+               
+            })
+            .catch(error => {
+                console.error("Erreur lors de l'envoi du formulaire :", error);
+            });
+        });
+
+
         
 
 
@@ -134,6 +153,12 @@ document.addEventListener("DOMContentLoaded", function () {
         backButtonModal2.setAttribute("aria-label", "Retour à la modale 1");
         backButtonModal2.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
         document.querySelector("#modal2 .modal-wrapper").prepend(backButtonModal2);
+
+        // Gestionnaire d'événement pour le bouton de retour à la modale 1
+        backButtonModal2.addEventListener("click", function() {
+            closeModal2(); // Fermer la modale 2
+            openModal1({ target: { getAttribute: () => "#modal1" } }); // Ouvrir la modale 1
+        });
 
         
             
