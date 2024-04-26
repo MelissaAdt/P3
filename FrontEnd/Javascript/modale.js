@@ -26,12 +26,34 @@ document.addEventListener("DOMContentLoaded", function () {
         target.setAttribute("aria-hidden", "true");
     };
 
-    // Fonction pour fermer la modale 2
-    const closeModal2 = function () {
-        const target = document.getElementById("modal2");
-        target.style.display = "none";
-        target.setAttribute("aria-hidden", "true");
-     };
+        // Fonction pour fermer la modale 2
+        const closeModal2 = function () {
+            const target = document.getElementById("modal2");
+            target.style.display = "none";
+            target.setAttribute("aria-hidden", "true");
+        };
+        // Chargement des catégories depuis l'API
+        async function fetchCategories() {
+            try {
+                const response = await fetch('http://localhost:5678/api/categories');
+                if (!response.ok) {
+                    throw new Error('Impossible de charger les catégories');
+                }
+                const categories = await response.json();
+                const selectElement = document.getElementById('categories');
+                categories.forEach(category => {
+                    const option = document.createElement('option');
+                    option.value = category.id;
+                    option.textContent = category.name;
+                    selectElement.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Erreur lors du chargement des catégories :', error.message);
+            }
+        }
+
+        // Appel de la fonction pour charger les catégories au chargement de la page
+        fetchCategories();
 
         document.addEventListener('click', function (event) {
             if (event.target.classList.contains('modal')) {
@@ -61,6 +83,9 @@ document.addEventListener("DOMContentLoaded", function () {
             modalGallery.appendChild(article);
         });
 
+        
+
+
         // Créer l'élément de lien modal et attacher l'événement pour ouvrir la modale
         const jsModal = document.createElement("a");
         jsModal.id = "js-modal";
@@ -81,8 +106,11 @@ document.addEventListener("DOMContentLoaded", function () {
     
         closeModal1();
         openModal2();
+
+        
     });
 
+    
 
 
         const closeButton = document.createElement("button");
@@ -111,6 +139,7 @@ document.addEventListener("DOMContentLoaded", function () {
             
         }
 
+        
    
         
     modalWorks();
