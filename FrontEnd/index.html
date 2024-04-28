@@ -72,23 +72,32 @@
     <div class="modal-wrapper">
         <h3>Ajout Photo</h3>
         <div id="travaux-modal2">
-            <div id="ajout_fichier">
-                <label for="fileInput" class="file-label">
-					<i class="fa-regular fa-image"></i><br>
-                    <button id="add-photo-button-form">+ Ajouter une photo</button>
-					<input type="file" id="fileInput" name="fileInput" style="display: none;">
-                </label>
-				<p>jpg, png : 4mo max</p>
-            </div>
-            <form action="#" method="post" id="form_ajout_photo">
-                <label for="titre">Titre</label>
-                <input type="text" id="titre">
+
+			<form class="js-submit" id="addWorkForm" target="">
+            <div id="formPhoto">
+				<i class="fa-regular fa-image"></i>
+				<label for="inpFile" class="buttonAddPhoto">
+					+ Ajouter photo	
+					<input type="file" class="js-photo" id="inpFile" accept="image/jpeg, image/png" size="4194304">
+				</label>
+					<p class="p-photo">jpg, png : 4mo max</p>
+			</div>
+
+            <div id="formTitle">
+				<label for="inputTitle">Titre</label>
+				<input type="text" name="titre" id="inputTitle" class="js-title">
+			</div>
+
+			<div class="formCategories">
 				<label for="categories">Catégorie</label><br>
     			<select id="categories"></select>
-            </form>
+            
 		</div>
-            <button id="button_valider">Valider</button>
-        
+	</div>
+			<input type="button" value="Valider"
+			 id="submitButton">
+			</input>
+        </form>
     </div>
 </aside>
 

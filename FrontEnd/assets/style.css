@@ -392,8 +392,14 @@ h3 {
 	margin-bottom: 20px;
 }
 
-#button_ajouter_photo,
-#button_valider {
+.preview-image {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+#button_ajouter_photo {
 	color: white;
 	background-color:#1D6154;
 	border-radius: 20px;
@@ -407,14 +413,50 @@ h3 {
 	margin-bottom: 20px;
 	border: none;
 }
+#submitButton { 
+	color: white;
+	background-color:grey;
+	border-radius: 20px;
+	border-color:none;
+	border-width: 1px;
+	font-family: 'Syne';
+	font-weight: 700;
+	font-size: 12px;
+	padding: 10px 25px;
+	display: flex;
+	margin-bottom: 20px;
+	border: none;
+}
 
-#ajout_fichier {
+.buttonAddPhoto{
+	z-index: 1; 
+	border: none;
+	color: #306685;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	padding-left: 35px;
+	padding-right: 35px;
+	border-radius: 25px;
+	background-color: rgb(199, 199, 199);
+	cursor: pointer;
+  }
+  
+  .js-photo{
+	display: none;
+  }
+
+#formPhoto {
 	background-color: #E8F1F6;
 	display: flex;
     flex-direction: column;
     align-items: center;
-    padding-top: 10px;
+
 	
+}
+
+#formPhoto img { 
+	max-width: 40%;
+    max-height: 100%;
 }
 
 .file-label { 
@@ -429,7 +471,7 @@ h3 {
 	color: lightgrey;
 }
 
-#ajout_fichier p { 
+#formPhoto p { 
 	font-size: 9px;
 	display: flex;
     justify-content: center;
@@ -447,7 +489,7 @@ h3 {
 
 }
 
-#titre, #categories { 
+#inputTitle, #categories { 
 	margin-bottom:  15px;
 	width: 100%;
 	height: 30px;
