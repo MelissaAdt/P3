@@ -2,12 +2,12 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fonctions pour ouvrir et fermer les modales
 
-    const openModal1 = function (e) {
-        e.preventDefault();
-        const target = document.querySelector(e.target.getAttribute("href"));
-        target.style.display = "flex";
-        target.removeAttribute("aria-hidden");
+    const openModal1 = function () {
+        const modal1 = document.getElementById("modal1");
+        modal1.style.display = "flex";
+        modal1.removeAttribute("aria-hidden");
     };
+    
 
     const openModal2 = function () {
         closeModal1();
@@ -303,11 +303,12 @@ document.addEventListener("DOMContentLoaded", function () {
         backButtonModal2.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
         document.querySelector("#modal2 .modal-wrapper").prepend(backButtonModal2);
 
-        // Gestionnaire d'événement pour le bouton de retour à la modale 1
-        backButtonModal2.addEventListener("click", function() {
-            closeModal2(); // Fermer la modale 2
-            openModal1({ target: { getAttribute: () => "#modal1" } }); // Ouvrir la modale 1
-        });
+       // Gestionnaire d'événement pour le bouton de retour à la modale 1
+backButtonModal2.addEventListener("click", function() {
+    closeModal2(); // Fermer la modale 2
+    openModal1({ preventDefault: () => {} }); // Passer un objet d'événement factice
+});
+
     }
 
     modalWorks();
