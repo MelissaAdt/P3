@@ -57,8 +57,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    
- // Appeler la fonction pour créer l'élément de lien modal
+
  createModalLink();
 
     function resetModalInputs() {
@@ -113,7 +112,7 @@ document.addEventListener("DOMContentLoaded", function () {
         submitButton.setAttribute('disabled', true); // Désactiver le bouton
     }
 
-    function updateButtonState() {
+        function updateButtonState() {
         const titleInput = document.getElementById("inputTitle");
 
         // Vérifier si titleInput est null
@@ -236,12 +235,20 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
+        
         document.getElementById("submitButton").addEventListener("click", function () {
             // Récupérer les éléments du formulaire
             const photoInput = document.getElementById("inpFile");
             console.log("État de photoInput avant la vérification :", photoInput);
             const titleInput = document.getElementById("inputTitle");
             const selectCategories = document.getElementById("categories");
+
+             // Créer FormData et ajouter les données du formulaire
+             const formData = new FormData();
+             formData.append("image", file);
+             formData.append("title", titleInput.value);
+             formData.append("category", selectCategories.value);
+
 
             // Vérifier si un fichier a été sélectionné
             if (!photoInput || !photoInput.files || photoInput.files.length === 0) {
@@ -260,12 +267,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Afficher la prévisualisation de l'image
                 displayImagePreview(file);
 
-                // Créer FormData et ajouter les données du formulaire
-                const formData = new FormData();
-                formData.append("image", file);
-                formData.append("title", titleInput.value);
-                formData.append("category", selectCategories.value);
-
+               
                 // Envoyer la requête avec fetch
                 fetch("http://localhost:5678/api/works", {
                     method: "POST",
@@ -326,10 +328,10 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelector("#modal2 .modal-wrapper").prepend(backButtonModal2);
 
        // Gestionnaire d'événement pour le bouton de retour à la modale 1
-backButtonModal2.addEventListener("click", function() {
-    closeModal2(); // Fermer la modale 2
-    openModal1({ preventDefault: () => {} }); // Passer un objet d'événement factice
-});
+    backButtonModal2.addEventListener("click", function() {
+        closeModal2(); // Fermer la modale 2
+        openModal1({ preventDefault: () => {} }); // Passer un objet d'événement factice
+    });
 
     }
 
