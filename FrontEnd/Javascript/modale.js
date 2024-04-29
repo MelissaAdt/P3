@@ -239,7 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
        // Écouteur d'événement pour le formulaire
        document.getElementById("submitButton").addEventListener("click", function () {
 
-    
+        const formPhotoInput = document.getElementById("inpFile");
 
         const endPoint = "http://localhost:5678/api/works";
         const formData = new FormData();
