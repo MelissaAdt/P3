@@ -1,3 +1,4 @@
+
 document.addEventListener("DOMContentLoaded", function () {
 
 
@@ -61,28 +62,28 @@ document.addEventListener("DOMContentLoaded", function () {
  createModalLink();
 
     function resetModalInputs() {
-        // Réinitialiser l'input ajout photo et l'image affichée
+     
         const photoInput = document.getElementById("inpFile");
         const formPhotoDiv = document.getElementById('formPhoto');
         const photoPreview = document.querySelector('#formPhoto img');
         const photoParagraph = document.querySelector(".p-photo");
 
-        // Réinitialiser l'image affichée
+       
         if (photoPreview) {
             photoPreview.remove();
         }
 
-        // Réinitialiser la valeur de l'input ajout photo
+       
         if (photoInput) {
             photoInput.value = "";
         }
 
-        // Réinitialiser le paragraphe avec le texte par défaut
+        
         if (photoParagraph) {
             photoParagraph.textContent = "jpg, png : 4mo max";
         }
 
-        // Réajouter l'icône et le paragraphe dans la div formPhoto
+        
         if (formPhotoDiv) {
             formPhotoDiv.innerHTML = `
                 <i class="fa-regular fa-image"></i>
@@ -103,19 +104,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (selectCategories) {
-            selectCategories.selectedIndex = 0; // Réinitialiser à la première option
-        }
+            selectCategories.selectedIndex = 0; 
 
-        // Réinitialiser l'apparence du bouton de validation
+        
         const submitButton = document.getElementById('submitButton');
         submitButton.style.backgroundColor = '';
-        submitButton.setAttribute('disabled', true); // Désactiver le bouton
+        submitButton.setAttribute('disabled', true); 
     }
 
         function updateButtonState() {
         const titleInput = document.getElementById("inputTitle");
 
-        // Vérifier si titleInput est null
+        // 
         if (!titleInput) {
             console.error("L'élément avec l'ID 'inputTitle' n'a pas été trouvé dans le document.");
             return;
@@ -124,13 +124,12 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectCategories = document.getElementById("categories");
         const submitButton = document.getElementById('submitButton');
 
-        // Vérifier si un titre a été saisi et si une catégorie a été sélectionnée
         if (titleInput.value && selectCategories.value) {
             submitButton.style.backgroundColor = '#1D6154';
-            submitButton.removeAttribute('disabled'); // Activer le bouton
+            submitButton.removeAttribute('disabled'); 
         } else {
             submitButton.style.backgroundColor = '';
-            submitButton.setAttribute('disabled', true); // Désactiver le bouton
+            submitButton.setAttribute('disabled', true); 
         }
     }
 
@@ -165,7 +164,7 @@ document.addEventListener("DOMContentLoaded", function () {
             formPhotoDiv.removeChild(formPhotoDiv.firstChild);
         }
 
-        // Ajouter la photo à la div
+        
         formPhotoDiv.appendChild(photoPreview);
     }
 
@@ -189,7 +188,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Appel de la fonction pour charger les catégories au chargement de la page
+    
     fetchCategories();
 
     document.addEventListener('click', function (event) {
@@ -225,77 +224,68 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Vérifier le type de fichier et la taille
                 if ((photoInput.type === "image/jpeg" || photoInput.type === "image/png") && photoInput.size <= 4194304) {
                     displayImagePreview(photoInput);
-                    console.log("Contenu de photoInput :", photoInput); // Ajout du console.log
+                    console.log("Contenu de photoInput :", photoInput); // 
                 } else {
-                    // Afficher un message d'erreur si le fichier ne respecte pas les conditions
+                    
                     window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
-                    // Réinitialiser la valeur de l'input file
+                    
                     this.value = "";
                 }
             }
         });
 
         
-        document.getElementById("submitButton").addEventListener("click", function () {
-            // Récupérer les éléments du formulaire
-            const photoInput = document.getElementById("inpFile");
-            console.log("État de photoInput avant la vérification :", photoInput);
-            const titleInput = document.getElementById("inputTitle");
-            const selectCategories = document.getElementById("categories");
+       // Écouteur d'événement pour le formulaire
+       document.getElementById("submitButton").addEventListener("click", function () {
 
-             // Créer FormData et ajouter les données du formulaire
-             const formData = new FormData();
-             formData.append("image", file);
-             formData.append("title", titleInput.value);
-             formData.append("category", selectCategories.value);
+        const formPhotoInput = document.getElementById("inpFile");
 
 
-            // Vérifier si un fichier a été sélectionné
-            if (!photoInput || !photoInput.files || photoInput.files.length === 0) {
-                // Afficher un message d'erreur si aucun fichier n'a été sélectionné
-                window.alert("Veuillez sélectionner une image.");
-                console.log("Aucun fichier sélectionné");
-                return; // Sortir de la fonction pour éviter l'exécution du reste du code
-            }
+        const endPoint = "http://localhost:5678/api/works";
+        const formData = new FormData();
 
-            // Un fichier a été sélectionné, poursuivre le traitement
-            const file = photoInput.files[0];
-            console.log("Fichier sélectionné :", file);
+        formData.append("image", formPhotoInput.files[0]); 
+        formData.append("title", titleInput.value);
+        formData.append("category", selectCategories.value);
 
-            // Vérifier le type de fichier et la taille
-            if ((file.type === "image/jpeg" || file.type === "image/png") && file.size <= 4194304) {
-                // Afficher la prévisualisation de l'image
-                displayImagePreview(file);
 
-               
-                // Envoyer la requête avec fetch
-                fetch("http://localhost:5678/api/works", {
-                    method: "POST",
-                    body: formData,
-                    headers: {
-                        'Authorization': `Bearer ${token}`,
-                    },
-                })
-                    .then((response) => {
-                        if (response.ok) {
-                            console.log('Photo envoyée avec succès');
-                            resetModalInputs();
-                            window.alert("Photo ajoutée à la galerie !");
-                            fetchData();
-                        } else {
-                            console.error('Échec de l\'envoi de la photo');
-                            window.alert("Veuillez renseigner tous les champs.");
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('Erreur lors de la requête:', error);
-                    });
-            } else {
-                // Afficher un message d'erreur si le fichier ne respecte pas les conditions
-                window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
-            }
-        });
+        fetch(endPoint, {
+                method: "POST",
+                body: formData,
+                headers: {
+                    'Authorization': `Bearer ${token}`,
+                },
+            })
+            .then((response) => {
+                if (response.ok) {
+                    console.log('Photo envoyée avec succès');
 
+
+                    removePreviewImage(); // Ajouter la fonction 
+                    resetModalInputs();
+                    addInput(); // Ajouter la fonction
+
+                    window.alert("Photo ajoutée à la galerie !");
+
+                    // Recharge les travaux depuis l'API
+                    return fetchData();
+
+                } else {
+                    console.error('Échec de l\'envoi de la photo');
+
+                    window.alert("Veuillez renseigner tous les champs.")
+
+                }
+
+            }).catch((error) => {
+                console.error('Erreur lors de la requête:', error);
+            });
+    
+
+});
+        
+        
+        
        
 
         // Gestionnaire d'événement pour ouvrir la modale 2 lorsque le bouton "Ajouter une photo" est cliqué
