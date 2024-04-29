@@ -219,74 +219,6 @@ document.addEventListener("DOMContentLoaded", function () {
             modalGallery.appendChild(article);
         });
 
-        document.getElementById("inpFile").addEventListener("change", function () {
-            const photoInput = this.files[0];
-            if (photoInput) {
-                // Vérifier le type de fichier et la taille
-                if ((photoInput.type === "image/jpeg" || photoInput.type === "image/png") && photoInput.size <= 4194304) {
-                    displayImagePreview(photoInput);
-                    console.log("Contenu de photoInput :", photoInput); 
-                } else {
-                    
-                    window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
-                    
-                    this.value = "";
-                }
-            }
-        });
-
-        
-       // Écouteur d'événement pour le formulaire
-       document.getElementById("submitButton").addEventListener("click", function () {
-
-        const formPhotoInput = document.getElementById("inpFile");
-
-        const endPoint = "http://localhost:5678/api/works";
-        const formData = new FormData();
-
-        formData.append("image", formPhotoInput.files[0]); 
-        formData.append("title", titleInput.value);
-        formData.append("category", selectCategories.value);
-
-
-        fetch(endPoint, {
-                method: "POST",
-                body: formData,
-                headers: {
-                    'Authorization': `Bearer ${token}`,
-                },
-            })
-            .then((response) => {
-                if (response.ok) {
-                    console.log('Photo envoyée avec succès');
-
-                   
-                    removePreviewImage();
-                    resetModalInputs();
-                    addInput();
-
-                    window.alert("Photo ajoutée à la galerie !");
-
-                    // Recharge les travaux depuis l'API
-                    return fetchData();
-
-                } else {
-                    console.error('Échec de l\'envoi de la photo');
-
-                    window.alert("Veuillez renseigner tous les champs.")
-
-                }
-
-            }).catch((error) => {
-                console.error('Erreur lors de la requête:', error);
-            });
-    
-
-});
-        
-        
-        
-       
 
         // Gestionnaire d'événement pour ouvrir la modale 2 lorsque le bouton "Ajouter une photo" est cliqué
         const ajouterPhotoButton = document.getElementById("button_ajouter_photo");
@@ -326,6 +258,72 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     modalWorks();
+
+    
+    document.getElementById("inpFile").addEventListener("change", function () {
+        const photoInput = this.files[0];
+        if (photoInput) {
+            // Vérifier le type de fichier et la taille
+            if ((photoInput.type === "image/jpeg" || photoInput.type === "image/png") && photoInput.size <= 4194304) {
+                displayImagePreview(photoInput);
+                console.log("Contenu de photoInput :", photoInput); 
+            } else {
+                
+                window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
+                
+                this.value = "";
+            }
+        }
+    });
+
+    
+   // Écouteur d'événement pour le formulaire
+   document.getElementById("submitButton").addEventListener("click", function () {
+
+    const formPhotoInput = document.getElementById("inpFile");
+
+    const endPoint = "http://localhost:5678/api/works";
+    const formData = new FormData();
+
+    formData.append("image", formPhotoInput.files[0]); 
+    formData.append("title", titleInput.value);
+    formData.append("category", selectCategories.value);
+
+
+    fetch(endPoint, {
+            method: "POST",
+            body: formData,
+            headers: {
+                'Authorization': `Bearer ${token}`,
+            },
+        })
+        .then((response) => {
+            if (response.ok) {
+                console.log('Photo envoyée avec succès');
+
+               
+                removePreviewImage();
+                resetModalInputs();
+                addInput();
+
+                window.alert("Photo ajoutée à la galerie !");
+
+                // Recharge les travaux depuis l'API
+                return fetchData();
+
+            } else {
+                console.error('Échec de l\'envoi de la photo');
+
+                window.alert("Veuillez renseigner tous les champs.")
+
+            }
+
+        }).catch((error) => {
+            console.error('Erreur lors de la requête:', error);
+        });
+
+
+});
 
     function createTrashIcon(workId) {
         const trashIcon = document.createElement("i");
