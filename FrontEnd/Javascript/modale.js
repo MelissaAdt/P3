@@ -1,13 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+
     // Fonctions pour ouvrir et fermer les modales
 
-    const openModal1 = function () {
-        const modal1 = document.getElementById("modal1");
-        modal1.style.display = "flex";
-        modal1.removeAttribute("aria-hidden");
-    };
-    
+   const openModal1 = function () {
+    const modal1 = document.getElementById("modal1");
+    modal1.style.display = "flex";
+    modal1.removeAttribute("aria-hidden");
+};
+
 
     const openModal2 = function () {
         closeModal1();
@@ -28,6 +29,37 @@ document.addEventListener("DOMContentLoaded", function () {
         target.style.display = "none";
         target.setAttribute("aria-hidden", "true");
     };
+
+        // Fonction pour vérifier si l'utilisateur est connecté
+        function isUserLoggedIn() {
+            const token = localStorage.getItem("token");
+            return token !== null && token !== undefined;
+        }
+
+
+     // Fonction pour créer l'élément de lien modal "modifier" et l'attacher à la page
+    function createModalLink() {
+        const loggedIn = isUserLoggedIn();
+
+        // Créer l'élément de lien modal uniquement si l'utilisateur est connecté
+        if (loggedIn) {
+            const jsModal = document.createElement("a");
+            jsModal.id = "js-modal";
+            jsModal.href = "#modal1";
+            jsModal.textContent = "modifier ";
+
+            const icon = document.createElement("i");
+            icon.classList.add("fa-regular", "fa-pen-to-square");
+            jsModal.appendChild(icon);
+
+            document.querySelector(".projets").appendChild(jsModal);
+            jsModal.addEventListener("click", openModal1);
+        }
+    }
+
+    
+ // Appeler la fonction pour créer l'élément de lien modal
+ createModalLink();
 
     function resetModalInputs() {
         // Réinitialiser l'input ajout photo et l'image affichée
@@ -168,6 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+  
     // Fonction asynchrone pour charger les projets de l'API dans la modale
     async function modalWorks() {
         const response = await fetch("http://localhost:5678/api/works");
@@ -261,18 +294,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         });
 
-        // Créer l'élément de lien modal et attacher l'événement pour ouvrir la modale
-        const jsModal = document.createElement("a");
-        jsModal.id = "js-modal";
-        jsModal.href = "#modal1";
-        jsModal.textContent = "modifier ";
-
-        const icon = document.createElement("i");
-        icon.classList.add("fa-regular", "fa-pen-to-square");
-        jsModal.appendChild(icon);
-
-        document.querySelector(".projets").appendChild(jsModal);
-        jsModal.addEventListener("click", openModal1);
+       
 
         // Gestionnaire d'événement pour ouvrir la modale 2 lorsque le bouton "Ajouter une photo" est cliqué
         const ajouterPhotoButton = document.getElementById("button_ajouter_photo");
