@@ -42,7 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function createModalLink() {
         const loggedIn = isUserLoggedIn();
 
-        // Créer l'élément de lien modal uniquement si l'utilisateur est connecté
+        
         if (loggedIn) {
             const jsModal = document.createElement("a");
             jsModal.id = "js-modal";
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
  createModalLink();
 
     function resetModalInputs() {
-     
+   
         const photoInput = document.getElementById("inpFile");
         const formPhotoDiv = document.getElementById('formPhoto');
         const photoPreview = document.querySelector('#formPhoto img');
@@ -73,12 +73,11 @@ document.addEventListener("DOMContentLoaded", function () {
             photoPreview.remove();
         }
 
-       
         if (photoInput) {
             photoInput.value = "";
         }
 
-        
+       
         if (photoParagraph) {
             photoParagraph.textContent = "jpg, png : 4mo max";
         }
@@ -105,8 +104,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (selectCategories) {
             selectCategories.selectedIndex = 0; 
+        }
 
-        
+        // Réinitialiser l'apparence du bouton de validation
         const submitButton = document.getElementById('submitButton');
         submitButton.style.backgroundColor = '';
         submitButton.setAttribute('disabled', true); 
@@ -115,7 +115,7 @@ document.addEventListener("DOMContentLoaded", function () {
         function updateButtonState() {
         const titleInput = document.getElementById("inputTitle");
 
-        // 
+        
         if (!titleInput) {
             console.error("L'élément avec l'ID 'inputTitle' n'a pas été trouvé dans le document.");
             return;
@@ -124,6 +124,7 @@ document.addEventListener("DOMContentLoaded", function () {
         const selectCategories = document.getElementById("categories");
         const submitButton = document.getElementById('submitButton');
 
+        // Vérifier si un titre a été saisi et si une catégorie a été sélectionnée
         if (titleInput.value && selectCategories.value) {
             submitButton.style.backgroundColor = '#1D6154';
             submitButton.removeAttribute('disabled'); 
@@ -151,7 +152,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     function displayImagePreview(file) {
-        // Afficher la photo dans la div
+        
         const imageUrl = URL.createObjectURL(file);
         const photoPreview = document.createElement('img');
         photoPreview.src = imageUrl;
@@ -159,12 +160,12 @@ document.addEventListener("DOMContentLoaded", function () {
         photoPreview.style.maxHeight = '100%';
         const formPhotoDiv = document.getElementById('formPhoto');
 
-        // Supprimer tous les enfants de la div, sauf l'input
+        
         while (formPhotoDiv.firstChild && formPhotoDiv.firstChild.tagName !== 'INPUT') {
             formPhotoDiv.removeChild(formPhotoDiv.firstChild);
         }
 
-        
+       
         formPhotoDiv.appendChild(photoPreview);
     }
 
@@ -188,7 +189,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    
+    // Appel de la fonction pour charger les catégories au chargement de la page
     fetchCategories();
 
     document.addEventListener('click', function (event) {
@@ -224,7 +225,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 // Vérifier le type de fichier et la taille
                 if ((photoInput.type === "image/jpeg" || photoInput.type === "image/png") && photoInput.size <= 4194304) {
                     displayImagePreview(photoInput);
-                    console.log("Contenu de photoInput :", photoInput); // 
+                    console.log("Contenu de photoInput :", photoInput); 
                 } else {
                     
                     window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
@@ -238,8 +239,7 @@ document.addEventListener("DOMContentLoaded", function () {
        // Écouteur d'événement pour le formulaire
        document.getElementById("submitButton").addEventListener("click", function () {
 
-        const formPhotoInput = document.getElementById("inpFile");
-
+    
 
         const endPoint = "http://localhost:5678/api/works";
         const formData = new FormData();
@@ -260,10 +260,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 if (response.ok) {
                     console.log('Photo envoyée avec succès');
 
-
-                    removePreviewImage(); // Ajouter la fonction 
+                   
+                    removePreviewImage();
                     resetModalInputs();
-                    addInput(); // Ajouter la fonction
+                    addInput();
 
                     window.alert("Photo ajoutée à la galerie !");
 
