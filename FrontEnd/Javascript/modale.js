@@ -259,7 +259,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     modalWorks();
 
-    
+
     document.getElementById("inpFile").addEventListener("change", function () {
         const photoInput = this.files[0];
         if (photoInput) {
@@ -302,9 +302,9 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log('Photo envoyée avec succès');
 
                
-                removePreviewImage();
+                removePreviewImage(); // fonction à ajouter 
                 resetModalInputs();
-                addInput();
+                addInput(); // fonction à ajouter 
 
                 window.alert("Photo ajoutée à la galerie !");
 
