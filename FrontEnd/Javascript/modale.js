@@ -2,6 +2,10 @@
 document.addEventListener("DOMContentLoaded", function () {
 
 
+    let selectedFile = null;
+
+    const token = localStorage.getItem("token");
+
     // Fonctions pour ouvrir et fermer les modales
 
    const openModal1 = function () {
@@ -261,12 +265,14 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
     document.getElementById("inpFile").addEventListener("change", function () {
-        const photoInput = this.files[0];
-        if (photoInput) {
+
+        selectedFile = this.files[0];
+
+        if (selectedFile) {
             // Vérifier le type de fichier et la taille
-            if ((photoInput.type === "image/jpeg" || photoInput.type === "image/png") && photoInput.size <= 4194304) {
-                displayImagePreview(photoInput);
-                console.log("Contenu de photoInput :", photoInput); 
+            if ((selectedFile.type === "image/jpeg" ||selectedFile.type === "image/png") && photoInput.size <= 4194304) {
+                displayImagePreview(selectedFile);
+                console.log("Contenu de selectedFile :", selectedFile); 
             } else {
                 
                 window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
@@ -280,12 +286,12 @@ document.addEventListener("DOMContentLoaded", function () {
    // Écouteur d'événement pour le formulaire
    document.getElementById("submitButton").addEventListener("click", function () {
 
-    const formPhotoInput = document.getElementById("inpFile");
+    if (selectedFile) {
 
     const endPoint = "http://localhost:5678/api/works";
     const formData = new FormData();
 
-    formData.append("image", formPhotoInput.files[0]); 
+    formData.append("image", selectedFile); 
     formData.append("title", titleInput.value);
     formData.append("category", selectCategories.value);
 
@@ -322,7 +328,7 @@ document.addEventListener("DOMContentLoaded", function () {
             console.error('Erreur lors de la requête:', error);
         });
 
-
+    }
 });
 
     function createTrashIcon(workId) {
