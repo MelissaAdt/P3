@@ -6,6 +6,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const token = localStorage.getItem("token");
 
+
+    // Fonction pour vérifier si l'utilisateur est connecté
+    function isUserLoggedIn() {
+        const token = localStorage.getItem("token");
+        return token !== null && token !== undefined;
+    }
+
     // Fonctions pour ouvrir et fermer les modales
 
    const openModal1 = function () {
@@ -35,12 +42,6 @@ document.addEventListener("DOMContentLoaded", function () {
         target.setAttribute("aria-hidden", "true");
     };
 
-        // Fonction pour vérifier si l'utilisateur est connecté
-        function isUserLoggedIn() {
-            const token = localStorage.getItem("token");
-            return token !== null && token !== undefined;
-        }
-
 
      // Fonction pour créer l'élément de lien modal "modifier" et l'attacher à la page
     function createModalLink() {
@@ -64,8 +65,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
  createModalLink();
-
-    
+   
 
     function resetModalInputs() {
    
@@ -142,6 +142,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+
     // Écouteurs d'événements pour les champs du formulaire
     const photoInput = document.getElementById("inpFile");
     const titleInput = document.getElementById("inputTitle");
@@ -197,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-    // Appel de la fonction pour charger les catégories au chargement de la page
     fetchCategories();
 
     document.addEventListener('click', function (event) {
@@ -273,7 +273,7 @@ document.addEventListener("DOMContentLoaded", function () {
         selectedFile = this.files[0];
 
         if (selectedFile) {
-            // Vérifier le type de fichier et la taille
+            
             if ((selectedFile.type === "image/jpeg" ||selectedFile.type === "image/png") && photoInput.size <= 4194304) {
                 displayImagePreview(selectedFile);
                 console.log("Contenu de selectedFile :", selectedFile); 
@@ -311,14 +311,13 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 console.log('Photo envoyée avec succès');
 
-               
-                removePreviewImage(); // fonction à ajouter 
+            
                 resetModalInputs();
-                addInput(); // fonction à ajouter 
+                
 
                 window.alert("Photo ajoutée à la galerie !");
 
-                // Recharge les travaux depuis l'API
+                
                 return fetchData();
 
             } else {

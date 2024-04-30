@@ -211,10 +211,6 @@ footer nav ul {
 }
 
 
-#login_form input {
-	cursor: pointer;
-}
-
 #introduction img { 
 
 	margin-left: 0px;
@@ -260,6 +256,9 @@ footer nav ul {
 	cursor: pointer;
 }
 
+#login_form input {
+	cursor: pointer;
+}
 
 #loginLink {
 	cursor: pointer;
@@ -292,7 +291,6 @@ footer nav ul {
 	text-decoration: none;
 	font-weight: 600;
 }
-
 
 
 .modal {
@@ -367,7 +365,6 @@ h3 {
 	
 }
 	
-
 #travaux-modal1 img { 
 
 	width: 75px;
@@ -377,6 +374,7 @@ h3 {
 }
 
 /* Modale 2 */
+
 
 .back-button {
     position: absolute;
@@ -394,12 +392,102 @@ h3 {
 	margin-bottom: 20px;
 }
 
-.preview-image {
+
+
+.buttonAddPhoto{
+	z-index: 1; 
+	border: none;
+	color: #306685;
+	padding-top: 9px;
+	padding-bottom: 9px;
+	padding-left: 35px;
+	padding-right: 35px;
+	border-radius: 25px;
+	background-color: rgb(199, 199, 199);
+	cursor: pointer;
+  }
+
+
+  .fa-image:before {
+	font-size: 60px;
+	color: lightgrey;
+}
+
+  .preview-image {
     max-width: 100%;
     max-height: 100%;
     width: auto;
     height: auto;
 }
+  
+  .js-photo {
+	display: none;
+  }
+
+
+#formPhoto {
+	background-color: #E8F1F6;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	margin-bottom: 15px;	
+}
+
+#formPhoto img { 
+	max-width: 40%;
+    max-height: 100%;
+}
+
+#add-photo-button-form {
+	background-color: lightgrey;
+	color: rgb(74, 139, 180);
+	border-radius:20px;
+	padding: 5px 10px;
+	margin-bottom: 5px;
+	border: none;
+	cursor: pointer;
+
+}
+
+#formPhoto p { 
+	font-size: 9px;
+	display: flex;
+    justify-content: center;
+	padding-bottom: 13px;
+}
+
+.file-label { 
+	display: flex;
+    flex-direction: column;
+    align-items: center;
+	padding-top: 10px;
+}
+
+
+#inputTitle { 
+	padding: 5px;
+	margin-bottom:  15px;
+	width: 97%;
+	height: 30px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-family: "Work Sans";
+	margin: 15px 0px;
+}
+
+#categories { 
+	padding: 6px;
+	margin-bottom:  15px;
+	width: 100%;
+	height: 40px;
+    font-size: 14px;
+    border: none;
+    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
+	font-family: "Work Sans";
+	margin: 10px 0px 30px 0px;
+}
+
 
 #button_ajouter_photo {
 	color: white;
@@ -437,91 +525,4 @@ h3 {
 }
 
 
-.buttonAddPhoto{
-	z-index: 1; 
-	border: none;
-	color: #306685;
-	padding-top: 9px;
-	padding-bottom: 9px;
-	padding-left: 35px;
-	padding-right: 35px;
-	border-radius: 25px;
-	background-color: rgb(199, 199, 199);
-	cursor: pointer;
-  }
-  
-  .js-photo{
-	display: none;
-  }
-
-#formPhoto {
-	background-color: #E8F1F6;
-	display: flex;
-    flex-direction: column;
-    align-items: center;
-	margin-bottom: 15px;
-
-	
-}
-
-#formPhoto img { 
-	max-width: 40%;
-    max-height: 100%;
-}
-
-.file-label { 
-	display: flex;
-    flex-direction: column;
-    align-items: center;
-	padding-top: 10px;
-}
-
-.fa-image:before {
-	font-size: 60px;
-	color: lightgrey;
-}
-
-#formPhoto p { 
-	font-size: 9px;
-	display: flex;
-    justify-content: center;
-	padding-bottom: 13px;
-}
-
-#add-photo-button-form {
-	background-color: lightgrey;
-	color: rgb(74, 139, 180);
-	border-radius:20px;
-	padding: 5px 10px;
-	margin-bottom: 5px;
-	border: none;
-	cursor: pointer;
-
-}
-
-
-
-#inputTitle { 
-	padding: 5px;
-	margin-bottom:  15px;
-	width: 97%;
-	height: 30px;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	font-family: "Work Sans";
-	margin: 15px 0px;
-}
-
-#categories { 
-	padding: 6px;
-	margin-bottom:  15px;
-	width: 100%;
-	height: 40px;
-    font-size: 14px;
-    border: none;
-    box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
-	font-family: "Work Sans";
-	margin: 10px 0px 30px 0px;
-}
 
