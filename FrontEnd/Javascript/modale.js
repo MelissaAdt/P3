@@ -65,6 +65,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
  createModalLink();
 
+    
+
     function resetModalInputs() {
    
         const photoInput = document.getElementById("inpFile");
@@ -78,7 +80,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
         if (photoInput) {
-            photoInput.value = "";
+            photoInput.value = null;
         }
 
        
@@ -108,13 +110,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (selectCategories) {
             selectCategories.selectedIndex = 0; 
-        }
+        } 
 
         // Réinitialiser l'apparence du bouton de validation
         const submitButton = document.getElementById('submitButton');
         submitButton.style.backgroundColor = '';
         submitButton.setAttribute('disabled', true); 
     }
+    
+
 
         function updateButtonState() {
         const titleInput = document.getElementById("inputTitle");
@@ -351,6 +355,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Fonction asynchrone pour supprimer un projet de l'API
     async function deleteElement(workId) {
+        
         try {
             const token = localStorage.getItem("token");
             console.log("Token récupéré du localStorage:", token); 
