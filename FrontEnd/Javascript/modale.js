@@ -7,21 +7,24 @@ document.addEventListener("DOMContentLoaded", function () {
     const token = localStorage.getItem("token");
 
 
-    // Fonction pour vérifier si l'utilisateur est connecté
+    /**
+     * Fonction pour vérifier si l'utilisateur est connecté
+     * @returns 
+     */
     function isUserLoggedIn() {
         const token = localStorage.getItem("token");
         return token !== null && token !== undefined;
     }
 
+
     // Fonctions pour ouvrir et fermer les modales
 
-   const openModal1 = function () {
+    const openModal1 = function () {
     const modal1 = document.getElementById("modal1");
     modal1.style.display = "flex";
     modal1.removeAttribute("aria-hidden");
     addWorkForm.reset();
-};
-
+    };
 
     const openModal2 = function () {
         closeModal1();
@@ -50,11 +53,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
  
 
-         // Fonction pour créer l'élément de lien modal "modifier" et l'attacher à la page
-         function createModalLink() {
+        // Fonction pour créer l'élément de lien modal "modifier" et l'attacher à la page
+        function createModalLink() {
         const loggedIn = isUserLoggedIn();
 
-        
         if (loggedIn) {
             const jsModal = document.createElement("a");
             jsModal.id = "js-modal";
@@ -70,22 +72,22 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-
         createModalLink();
    
-    
+
         function resetSelectedFile() {
             selectedFile = null;
         }
 
-    function resetModalInputs() {
+
+        function resetModalInputs() {
    
         const photoInput = document.getElementById("inpFile");
         const formPhotoDiv = document.getElementById('formPhoto');
         const photoPreview = document.querySelector('#formPhoto img');
         const photoParagraph = document.querySelector(".p-photo");
 
-        resetSelectedFile(); // Réinitialisation de selectedFile
+        resetSelectedFile(); 
         console.log('Contenu de selectedFile après la réinitialisation :', selectedFile);
       
         if (photoPreview) {
@@ -135,8 +137,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
         function updateButtonState() {
         const titleInput = document.getElementById("inputTitle");
-
-        
+ 
         if (!titleInput) {
             console.error("L'élément avec l'ID 'inputTitle' n'a pas été trouvé dans le document.");
             return;
@@ -158,7 +159,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 /**
- * 
+ * Fonction pour afficher l'image selectionée 
  * @param {*} file 
  */
     function displayImagePreview(file) {
@@ -208,7 +209,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
   
-    // Fonction asynchrone pour charger les projets de l'API dans la modale
+    // Fonction pour charger les projets de l'API dans la modale
     async function modalWorks() {
         const response = await fetch("http://localhost:5678/api/works");
         const works = await response.json();
@@ -228,13 +229,14 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
 
-        // Gestionnaire d'événement pour ouvrir la modale 2 lorsque le bouton "Ajouter une photo" est cliqué
+    // Gestionnaire d'événement pour ouvrir la modale 2 lorsque le bouton "Ajouter une photo" est cliqué
         const ajouterPhotoButton = document.getElementById("button_ajouter_photo");
         ajouterPhotoButton.addEventListener("click", function () {
             closeModal1();
             openModal2();
         });
 
+    // Boutons croix pour fermer les modales 
         const closeButton = document.createElement("button");
         closeButton.classList.add("close-button");
         closeButton.setAttribute("aria-label", "Fermer la modale");
@@ -242,7 +244,6 @@ document.addEventListener("DOMContentLoaded", function () {
         closeButton.addEventListener("click", closeModal1);
         document.querySelector("#modal1 .modal-wrapper").prepend(closeButton);
 
-        // Créer la croix de fermeture pour la modale 2
         const closeButtonModal2 = document.createElement("button");
         closeButtonModal2.classList.add("close-button");
         closeButtonModal2.setAttribute("aria-label", "Fermer la modale");
@@ -250,17 +251,19 @@ document.addEventListener("DOMContentLoaded", function () {
         closeButtonModal2.addEventListener('click', closeModal2);
         document.querySelector("#modal2 .modal-wrapper").prepend(closeButtonModal2);
 
-        // Créer la flèche de retour pour la modale 2
+        
+    // Créer la flèche de retour pour la modale 2
         const backButtonModal2 = document.createElement("button");
         backButtonModal2.classList.add("back-button");
         backButtonModal2.setAttribute("aria-label", "Retour à la modale 1");
         backButtonModal2.innerHTML = '<i class="fa-solid fa-arrow-left"></i>';
         document.querySelector("#modal2 .modal-wrapper").prepend(backButtonModal2);
 
-       // Gestionnaire d'événement pour le bouton de retour à la modale 1
-    backButtonModal2.addEventListener("click", function() {
-        closeModal2(); // Fermer la modale 2
-        openModal1({ preventDefault: () => {} }); // Passer un objet d'événement factice
+
+    // Gestionnaire d'événement pour le bouton de retour à la modale 1
+        backButtonModal2.addEventListener("click", function() {
+        closeModal2(); 
+        openModal1({ preventDefault: () => {} }); 
     });
 
     }
@@ -268,6 +271,7 @@ document.addEventListener("DOMContentLoaded", function () {
  
     modalWorks();
 
+    // Fonction pour mettre à jour la gallerie une fois un projet ajouté ou supprimé
     async function updateGallery() {
         try {
             const response = await fetch("http://localhost:5678/api/works");
@@ -275,13 +279,13 @@ document.addEventListener("DOMContentLoaded", function () {
             const gallery = document.querySelector('.gallery');
             const modal1Gallery = document.getElementById('travaux-modal1');
     
-            // Supprimer tous les éléments de la galerie et de la modale 1
+        
             gallery.innerHTML = '';
             modal1Gallery.innerHTML = '';
     
-            // Recréer les éléments pour chaque projet
+            
             works.forEach(work => {
-                // Créer un élément article pour la galerie
+                
                 const galleryArticle = document.createElement("article");
                 galleryArticle.setAttribute("data-work-id", work.id);
                 const galleryImg = document.createElement("img");
@@ -289,21 +293,21 @@ document.addEventListener("DOMContentLoaded", function () {
                 galleryArticle.appendChild(galleryImg);
                 gallery.appendChild(galleryArticle);
 
-              // Créer un élément figcaption pour la galerie
-            const galleryFigcaption = document.createElement("figcaption");
-            galleryFigcaption.textContent = work.title;
-            galleryArticle.appendChild(galleryFigcaption);
+             
+                const galleryFigcaption = document.createElement("figcaption");
+                galleryFigcaption.textContent = work.title;
+                galleryArticle.appendChild(galleryFigcaption);
 
-            gallery.appendChild(galleryArticle);
+                gallery.appendChild(galleryArticle);
     
-                // Créer un élément article pour la modale 1
+               
                 const modalArticle = document.createElement("article");
                 modalArticle.setAttribute("data-work-id", work.id);
                 const modalImg = document.createElement("img");
                 modalImg.src = work.imageUrl;
                 modalArticle.appendChild(modalImg);
     
-                // Ajouter l'icône de corbeille à la modale 1
+                
                 const trashIcon = createTrashIcon(work.id);
                 modalArticle.appendChild(trashIcon);
     
@@ -314,10 +318,10 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-          // Écouteurs d'événements pour les champs du formulaire
-    const photoInput = document.getElementById("inpFile");
-    const titleInput = document.getElementById("inputTitle");
-    const selectCategories = document.getElementById("categories");
+    // Écouteurs d'événements pour les champs du formulaire
+        const photoInput = document.getElementById("inpFile");
+        const titleInput = document.getElementById("inputTitle");
+        const selectCategories = document.getElementById("categories");
 
     photoInput.addEventListener('input', () => {
         updateButtonState();
@@ -334,10 +338,10 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
 
-
-    const addWorkForm = document.getElementById('addWorkForm');
-
-    addWorkForm.addEventListener('submit', function(event) {
+    // Réinitialiser le formulaire d'ajout de projets 
+        const addWorkForm = document.getElementById('addWorkForm');
+    
+        addWorkForm.addEventListener('submit', function(event) {
        
         event.preventDefault();
         
@@ -347,11 +351,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
 
 
-    document.getElementById("inpFile").addEventListener("change", function () {
-
+    // Fonction pour la selection d'un fichier dans l'input 
+        document.getElementById("inpFile").addEventListener("change", function () {
+        
         selectedFile = this.files[0];
-
-
             
             if ((selectedFile.type === "image/jpeg" ||selectedFile.type === "image/png") && photoInput.size <= 4194304) {
                 displayImagePreview(selectedFile);
@@ -370,19 +373,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
     
    // Écouteur d'événement pour le formulaire
-   document.getElementById("submitButton").addEventListener("click", function () {
+        document.getElementById("submitButton").addEventListener("click", function () {
 
-    if (selectedFile) {
+        if (selectedFile) {
 
-    const endPoint = "http://localhost:5678/api/works";
-    const formData = new FormData();
+        const endPoint = "http://localhost:5678/api/works";
+        const formData = new FormData();
 
-    formData.append("image", selectedFile); 
-    formData.append("title", titleInput.value);
-    formData.append("category", selectCategories.value);
+        formData.append("image", selectedFile); 
+        formData.append("title", titleInput.value);
+        formData.append("category", selectCategories.value);
 
 
-    fetch(endPoint, {
+        fetch(endPoint, {
             method: "POST",
             body: formData,
             headers: {
@@ -417,6 +420,11 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 });
 
+    /**
+     * Fonction pour créer une îcone qui sert à supprimer un projet depuis la modale 1
+     * @param {*} workId 
+     * @returns 
+     */
     function createTrashIcon(workId) {
         const trashIcon = document.createElement("i");
         trashIcon.classList.add("fa-solid", "fa-trash-can");
@@ -435,7 +443,11 @@ document.addEventListener("DOMContentLoaded", function () {
         return trashIcon;
     }
 
-    // Fonction asynchrone pour supprimer un projet de l'API
+    /**
+     * Fonction pour supprimer un projet de l'API
+     * @param {*} workId 
+     * @returns 
+     */
     async function deleteElement(workId) {
         
         try {
