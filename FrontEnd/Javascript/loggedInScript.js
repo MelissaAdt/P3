@@ -1,12 +1,12 @@
 
 
-
+// Supprimer les filtres
 const elementToDelete = document.getElementById("elementToDelete");
 if (elementToDelete) {
     elementToDelete.remove();
 }
 
-// Vérifier si l'utilisateur est connecté (par exemple, en vérifiant l'existence du token)
+// Vérifier si l'utilisateur est connecté 
 const tokenPresent = localStorage.getItem("token");
 console.log(tokenPresent)
 const loginButton = document.getElementById("loginLink");

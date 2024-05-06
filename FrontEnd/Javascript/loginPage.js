@@ -5,7 +5,10 @@ const password = document.getElementById("password");
 form.addEventListener("submit", handleFormSubmit);
 
 
-// Fonction pour gérer la soumission du formulaire
+/**
+ * Fonction pour gérer la soumission du formulaire de connexion
+ * @param {*} e 
+ */
 async function handleFormSubmit(e) {
     e.preventDefault(); 
 
@@ -29,8 +32,10 @@ async function handleFormSubmit(e) {
             } else {
                 displayError("Erreur dans l’identifiant ou le mot de passe");
             }
+            
         } catch (error) {
             console.error("Erreur lors de l'authentification :", error);
+            window.alert("Veuillez entrer un mot de passe valide");
         }
     }
 }
@@ -67,7 +72,12 @@ function isValidEmail(email) {
     return emailPattern.test(email);
 }
 
-// Fonction pour authentifier l'utilisateur en envoyant une requête au serveur
+/**
+ * Authentifie l'utilisateur en envoyant une requête au serveur
+ * @param {*} email 
+ * @param {*} password 
+ * @returns 
+ */
 async function authenticateUser(email, password) {
     try {
         return await fetch("http://localhost:5678/api/users/login", {
@@ -81,7 +91,10 @@ async function authenticateUser(email, password) {
     }
 }
 
-
+/**
+ * Fonction pour stocker le token dans le localStorage une fois l'utilisateur connecté
+ * @param {*} token 
+ */
 function saveToken(token) {
     if (token) {
         const tokenString = typeof token === 'object' ? JSON.stringify(token) : token;

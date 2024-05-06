@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const modal1 = document.getElementById("modal1");
     modal1.style.display = "flex";
     modal1.removeAttribute("aria-hidden");
+    addWorkForm.reset();
 };
 
 
@@ -37,14 +38,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const closeModal2 = function () {
         const target = document.getElementById("modal2");
+        if ('selectedFile' in window) {
+            delete window.selectedFile;
+        }
+        console.log('selectedFile après suppression de la référence window :', selectedFile);
         resetModalInputs();
         target.style.display = "none";
         target.setAttribute("aria-hidden", "true");
+        addWorkForm.reset();
     };
 
+ 
 
-     // Fonction pour créer l'élément de lien modal "modifier" et l'attacher à la page
-    function createModalLink() {
+         // Fonction pour créer l'élément de lien modal "modifier" et l'attacher à la page
+         function createModalLink() {
         const loggedIn = isUserLoggedIn();
 
         
@@ -64,8 +71,12 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
- createModalLink();
+        createModalLink();
    
+    
+        function resetSelectedFile() {
+            selectedFile = null;
+        }
 
     function resetModalInputs() {
    
@@ -74,7 +85,9 @@ document.addEventListener("DOMContentLoaded", function () {
         const photoPreview = document.querySelector('#formPhoto img');
         const photoParagraph = document.querySelector(".p-photo");
 
-       
+        resetSelectedFile(); // Réinitialisation de selectedFile
+        console.log('Contenu de selectedFile après la réinitialisation :', selectedFile);
+      
         if (photoPreview) {
             photoPreview.remove();
         }
@@ -143,40 +156,27 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
 
-    // Écouteurs d'événements pour les champs du formulaire
-    const photoInput = document.getElementById("inpFile");
-    const titleInput = document.getElementById("inputTitle");
-    const selectCategories = document.getElementById("categories");
 
-    photoInput.addEventListener('input', () => {
-        updateButtonState();
-    });
-
-    titleInput.addEventListener('input', () => {
-        updateButtonState();
-    });
-
-    selectCategories.addEventListener('change', () => {
-        updateButtonState();
-    });
-
+/**
+ * 
+ * @param {*} file 
+ */
     function displayImagePreview(file) {
-        
-        const imageUrl = URL.createObjectURL(file);
-        const photoPreview = document.createElement('img');
-        photoPreview.src = imageUrl;
-        photoPreview.style.maxWidth = '40%';
-        photoPreview.style.maxHeight = '100%';
-        const formPhotoDiv = document.getElementById('formPhoto');
+    const imageUrl = URL.createObjectURL(file);
+    const photoPreview = document.createElement('img');
+    photoPreview.src = imageUrl;
+    photoPreview.style.maxWidth = '40%';
+    photoPreview.style.maxHeight = '100%';
+    const formPhotoDiv = document.getElementById('formPhoto');
 
-        
-        while (formPhotoDiv.firstChild && formPhotoDiv.firstChild.tagName !== 'INPUT') {
-            formPhotoDiv.removeChild(formPhotoDiv.firstChild);
-        }
-
-       
+    // Vérifier s'il y a déjà une prévisualisation d'image à remplacer
+    const existingPreview = formPhotoDiv.querySelector('img');
+    if (existingPreview) {
+        formPhotoDiv.replaceChild(photoPreview, existingPreview);
+    } else {
         formPhotoDiv.appendChild(photoPreview);
     }
+}
 
     // Chargement des catégories depuis l'API
     async function fetchCategories() {
@@ -265,26 +265,108 @@ document.addEventListener("DOMContentLoaded", function () {
 
     }
 
+ 
     modalWorks();
+
+    async function updateGallery() {
+        try {
+            const response = await fetch("http://localhost:5678/api/works");
+            const works = await response.json();
+            const gallery = document.querySelector('.gallery');
+            const modal1Gallery = document.getElementById('travaux-modal1');
+    
+            // Supprimer tous les éléments de la galerie et de la modale 1
+            gallery.innerHTML = '';
+            modal1Gallery.innerHTML = '';
+    
+            // Recréer les éléments pour chaque projet
+            works.forEach(work => {
+                // Créer un élément article pour la galerie
+                const galleryArticle = document.createElement("article");
+                galleryArticle.setAttribute("data-work-id", work.id);
+                const galleryImg = document.createElement("img");
+                galleryImg.src = work.imageUrl;
+                galleryArticle.appendChild(galleryImg);
+                gallery.appendChild(galleryArticle);
+
+              // Créer un élément figcaption pour la galerie
+            const galleryFigcaption = document.createElement("figcaption");
+            galleryFigcaption.textContent = work.title;
+            galleryArticle.appendChild(galleryFigcaption);
+
+            gallery.appendChild(galleryArticle);
+    
+                // Créer un élément article pour la modale 1
+                const modalArticle = document.createElement("article");
+                modalArticle.setAttribute("data-work-id", work.id);
+                const modalImg = document.createElement("img");
+                modalImg.src = work.imageUrl;
+                modalArticle.appendChild(modalImg);
+    
+                // Ajouter l'icône de corbeille à la modale 1
+                const trashIcon = createTrashIcon(work.id);
+                modalArticle.appendChild(trashIcon);
+    
+                modal1Gallery.appendChild(modalArticle);
+            });
+        } catch (error) {
+            console.error('Erreur lors de la mise à jour de la galerie :', error);
+        }
+    }
+
+          // Écouteurs d'événements pour les champs du formulaire
+    const photoInput = document.getElementById("inpFile");
+    const titleInput = document.getElementById("inputTitle");
+    const selectCategories = document.getElementById("categories");
+
+    photoInput.addEventListener('input', () => {
+        updateButtonState();
+    });
+
+    titleInput.addEventListener('input', () => {
+        updateButtonState();
+    });
+
+    selectCategories.addEventListener('change', () => {
+        updateButtonState();
+    });
+
+    
+
+
+
+    const addWorkForm = document.getElementById('addWorkForm');
+
+    addWorkForm.addEventListener('submit', function(event) {
+       
+        event.preventDefault();
+        
+        addWorkForm.reset();
+    console.log("Formulaire réinitialisé :", addWorkForm);
+    });
+
 
 
     document.getElementById("inpFile").addEventListener("change", function () {
 
         selectedFile = this.files[0];
 
-        if (selectedFile) {
+
             
             if ((selectedFile.type === "image/jpeg" ||selectedFile.type === "image/png") && photoInput.size <= 4194304) {
                 displayImagePreview(selectedFile);
                 console.log("Contenu de selectedFile :", selectedFile); 
+                
             } else {
                 
                 window.alert("Le fichier doit être au format JPEG ou PNG et ne doit pas dépasser 4 Mo.");
                 
                 this.value = "";
             }
-        }
+        
     });
+
+        
 
     
    // Écouteur d'événement pour le formulaire
@@ -311,14 +393,15 @@ document.addEventListener("DOMContentLoaded", function () {
             if (response.ok) {
                 console.log('Photo envoyée avec succès');
 
-            
+                updateGallery();
                 resetModalInputs();
-                
+                addWorkForm.reset(); 
+                console.log("Formulaire réinitialisé :", addWorkForm);
 
                 window.alert("Photo ajoutée à la galerie !");
 
                 
-                return fetchData();
+                
 
             } else {
                 console.error('Échec de l\'envoi de la photo');
@@ -380,6 +463,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }
             } else {
                 console.log("Projet supprimé avec succès.");
+                updateGallery();
+                addWorkForm.reset();
+                console.log("Formulaire réinitialisé :", addWorkForm);
+               
             }
         } catch (error) {
             console.error("Erreur lors de la suppression du projet :", error.message);

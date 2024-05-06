@@ -3,7 +3,11 @@
 document.addEventListener("DOMContentLoaded", function() {
     const token = localStorage.getItem("token");
 
-    // Générer la galerie de travaux 
+    
+    /**
+     * Générer les travaux depuis l'API
+     * @param {*} filter 
+     */
     const updateGallery = async (filter = null) => {
         const response = await fetch("http://localhost:5678/api/works");
         const projets = await response.json();
@@ -31,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function() {
     updateGallery();
 
 
-    // Création de la fonction pour les filtres 
+    // Fonction pour générer les catégorie et filtrer les travaux
     async function fetchCategories() {
         const response = await fetch("http://localhost:5678/api/categories");
         const categories = await response.json();
@@ -61,7 +65,7 @@ document.addEventListener("DOMContentLoaded", function() {
     filtersContainer.appendChild(allButton);
 
 
-     // Créer les boutons de filtre uniquement si l'utilisateur n'est pas connecté
+     // Créer les boutons de filtre 
         categories.forEach((category) => {
             const button = createButton(category.name, () =>
                 updateGallery(category.name)
@@ -72,6 +76,12 @@ document.addEventListener("DOMContentLoaded", function() {
         allButton.click();
     };
 
+    /**
+     * Créer un bouton en générant le nom des catégories et les filtrent au clic
+     * @param {*} text 
+     * @param {*} clickHandler 
+     * @returns 
+     */
     const createButton = (text, clickHandler) => {
         const button = document.createElement("button");
         button.textContent = text;
@@ -79,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function() {
         return button;
     };
 
-    // Redirection vers la page login.html lorsque l'utilisateur clique sur le lien "login"
+    // Redirection vers la page login.html 
     const loggedLink = document.getElementById('loginLink');
     loggedLink.addEventListener('click', function() {
         window.location.href = "/FrontEnd/login.html";
