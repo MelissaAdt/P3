@@ -41,15 +41,15 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const closeModal2 = function () {
         const target = document.getElementById("modal2");
-        if ('selectedFile' in window) {
-            delete window.selectedFile;
-        }
-        console.log('selectedFile après suppression de la référence window :', selectedFile);
-        resetModalInputs();
-        target.style.display = "none";
-        target.setAttribute("aria-hidden", "true");
-        addWorkForm.reset();
-    };
+    
+    
+    
+    target.style.display = "none";
+    target.setAttribute("aria-hidden", "true");
+    removePreviewImage(); // Supprimer la prévisualisation de l'image
+    resetButtonAndTitle();
+    addWorkForm.reset();
+};
 
  
 
@@ -80,40 +80,12 @@ document.addEventListener("DOMContentLoaded", function () {
         }
 
 
-        function resetModalInputs() {
+        function resetButtonAndTitle() {
    
-        const photoInput = document.getElementById("inpFile");
-        const formPhotoDiv = document.getElementById('formPhoto');
-        const photoPreview = document.querySelector('#formPhoto img');
-        const photoParagraph = document.querySelector(".p-photo");
 
         resetSelectedFile(); 
         console.log('Contenu de selectedFile après la réinitialisation :', selectedFile);
       
-        if (photoPreview) {
-            photoPreview.remove();
-        }
-
-        if (photoInput) {
-            photoInput.value = null;
-        }
-
-       
-        if (photoParagraph) {
-            photoParagraph.textContent = "jpg, png : 4mo max";
-        }
-
-        
-        if (formPhotoDiv) {
-            formPhotoDiv.innerHTML = `
-                <i class="fa-regular fa-image"></i>
-                <label class="buttonAddPhoto">
-                    + Ajouter photo    
-                    <input type="file" class="js-photo" id="inpFile" accept="image/jpeg, image/png" size="4194304">
-                </label>
-                <p class="p-photo">jpg, png : 4mo max</p>
-            `;
-        }
 
         // Réinitialiser les champs titre et catégorie
         const titleInput = document.getElementById("inputTitle");
@@ -135,26 +107,22 @@ document.addEventListener("DOMContentLoaded", function () {
     
 
 
-        function updateButtonState() {
+    function updateButtonState() {
         const titleInput = document.getElementById("inputTitle");
- 
-        if (!titleInput) {
-            console.error("L'élément avec l'ID 'inputTitle' n'a pas été trouvé dans le document.");
-            return;
-        }
-
+        const photoInput = document.getElementById("inpFile"); // Ajout de la récupération de l'input de l'image
         const selectCategories = document.getElementById("categories");
         const submitButton = document.getElementById('submitButton');
-
-        // Vérifier si un titre a été saisi et si une catégorie a été sélectionnée
-        if (titleInput.value && selectCategories.value) {
+    
+        // Vérifier si un titre a été saisi, une catégorie sélectionnée et une image téléchargée
+        if (titleInput.value && selectCategories.value && photoInput.files.length > 0) {
             submitButton.style.backgroundColor = '#1D6154';
-            submitButton.removeAttribute('disabled'); 
+            submitButton.removeAttribute('disabled');
         } else {
             submitButton.style.backgroundColor = '';
-            submitButton.setAttribute('disabled', true); 
+            submitButton.setAttribute('disabled', true);
         }
     }
+    
 
 
 
@@ -162,13 +130,22 @@ document.addEventListener("DOMContentLoaded", function () {
  * Fonction pour afficher l'image selectionée 
  * @param {*} file 
  */
-    function displayImagePreview(file) {
-    const imageUrl = URL.createObjectURL(file);
-    const photoPreview = document.createElement('img');
-    photoPreview.src = imageUrl;
-    photoPreview.style.maxWidth = '40%';
-    photoPreview.style.maxHeight = '100%';
-    const formPhotoDiv = document.getElementById('formPhoto');
+        function displayImagePreview(file) {
+        const imageUrl = URL.createObjectURL(file);
+        const photoPreview = document.createElement('img');
+        photoPreview.src = imageUrl;
+        photoPreview.style.maxWidth = '40%';
+        photoPreview.style.maxHeight = '100%';
+        const formPhotoDiv = document.getElementById('formPhoto');
+
+        // Masquer les éléments buttonAddPhoto et p-photo
+    const buttonAddPhoto = document.querySelector('.buttonAddPhoto');
+    const pPhoto = document.querySelector('.p-photo');
+    const icon = document.querySelector('.fa-regular.fa-image');
+    buttonAddPhoto.style.display = 'none';
+    pPhoto.style.display = 'none';
+    icon.style.display = 'none';
+
 
     // Vérifier s'il y a déjà une prévisualisation d'image à remplacer
     const existingPreview = formPhotoDiv.querySelector('img');
@@ -179,6 +156,21 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 }
 
+function removePreviewImage() {
+    const formPhotoDiv = document.getElementById('formPhoto');
+    const photoPreview = formPhotoDiv.querySelector('img');
+    if (photoPreview) {
+        formPhotoDiv.removeChild(photoPreview);
+        const buttonAddPhoto = document.querySelector('.buttonAddPhoto');
+        const pPhoto = document.querySelector('.p-photo');
+        const icon = document.querySelector('.fa-regular.fa-image');
+        buttonAddPhoto.style.display = 'block';
+        pPhoto.style.display = 'block';
+        icon.style.display = 'block';
+
+       
+    }
+}
     // Chargement des catégories depuis l'API
     async function fetchCategories() {
         try {
@@ -336,8 +328,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     
-
-
     // Réinitialiser le formulaire d'ajout de projets 
         const addWorkForm = document.getElementById('addWorkForm');
     
@@ -359,6 +349,8 @@ document.addEventListener("DOMContentLoaded", function () {
             if ((selectedFile.type === "image/jpeg" ||selectedFile.type === "image/png") && photoInput.size <= 4194304) {
                 displayImagePreview(selectedFile);
                 console.log("Contenu de selectedFile :", selectedFile); 
+
+                
                 
             } else {
                 
@@ -369,8 +361,7 @@ document.addEventListener("DOMContentLoaded", function () {
         
     });
 
-        
-
+    
     
    // Écouteur d'événement pour le formulaire
         document.getElementById("submitButton").addEventListener("click", function () {
@@ -397,14 +388,12 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.log('Photo envoyée avec succès');
 
                 updateGallery();
-                resetModalInputs();
+                removePreviewImage();
+                resetButtonAndTitle();
                 addWorkForm.reset(); 
                 console.log("Formulaire réinitialisé :", addWorkForm);
 
                 window.alert("Photo ajoutée à la galerie !");
-
-                
-                
 
             } else {
                 console.error('Échec de l\'envoi de la photo');
