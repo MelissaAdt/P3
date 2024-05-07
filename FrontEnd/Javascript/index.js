@@ -8,12 +8,15 @@ document.addEventListener("DOMContentLoaded", function() {
      * Générer les travaux depuis l'API
      * @param {*} filter 
      */
-    const updateGallery = async (filter = null) => {
+        window.updateGallery = async (filter = null) => {
         const response = await fetch("http://localhost:5678/api/works");
         const projets = await response.json();
 
         const galleryContainer = document.querySelector(".gallery");
+        const modal1Gallery = document.getElementById('travaux-modal1');
         galleryContainer.innerHTML = "";
+        modal1Gallery.innerHTML ="";
+
 
         const filteredWorks = filter
             ? projets.filter((projet) => projet.category.name === filter)
@@ -28,11 +31,23 @@ document.addEventListener("DOMContentLoaded", function() {
                 '<img src="' + projet.imageUrl + '" alt="' + projet.title + '">';
 
             galleryContainer.appendChild(elementTravail);
+
+            // Ajout des éléments à la galerie dans #travaux-modal1
+            const modalArticle = document.createElement("article");
+            modalArticle.setAttribute("data-work-id", projet.id);
+            const modalImg = document.createElement("img");
+            modalImg.src = projet.imageUrl;
+            modalArticle.appendChild(modalImg);
+
+            const trashIcon = window.createTrashIcon(projet.id);
+            modalArticle.appendChild(trashIcon);
+
+            modal1Gallery.appendChild(modalArticle);
         });
     };
 
 
-    updateGallery();
+    window.updateGallery();
 
 
     // Fonction pour générer les catégorie et filtrer les travaux
@@ -61,14 +76,14 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
-    const allButton = createButton("Tous", () => updateGallery());
+    const allButton = createButton("Tous", () => window.updateGallery());
     filtersContainer.appendChild(allButton);
 
 
      // Créer les boutons de filtre 
         categories.forEach((category) => {
             const button = createButton(category.name, () =>
-                updateGallery(category.name)
+                window.updateGallery(category.name)
             );
             filtersContainer.appendChild(button);
         });

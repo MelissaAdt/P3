@@ -30,7 +30,9 @@ async function handleFormSubmit(e) {
                     console.error('Le token récupéré est invalide.');
                 }
             } else {
-                displayError("Erreur dans l’identifiant ou le mot de passe");
+                if (response.status === 404 || response.status === 401) {
+                    window.alert("Erreur dans l’identifiant ou le mot de passe");
+                }
             }
             
         } catch (error) {
@@ -52,6 +54,8 @@ async function validateInputs() {
     displayError(email, errors.email);
     displayError(password, errors.password);
 
+
+        
     return Object.values(errors).every(error => !error);
 }
 
