@@ -257,7 +257,6 @@ footer nav ul {
 }
 
 
-
 #loginLink {
 	cursor: pointer;
   }
@@ -340,10 +339,10 @@ h3 {
 	display: flex;
 	flex-wrap: wrap;
 	gap: 10px;
-	padding-bottom: 40px;
+	padding-bottom: 30px;
 	margin-bottom: 30px;
 	border-bottom: 2px solid lightgrey;
-	width: 100%;
+	width: 80%;
 }
 
 #travaux-modal1 article {
@@ -365,8 +364,8 @@ h3 {
 	
 #travaux-modal1 img { 
 
-	width: 75px;
-	height: 100px;
+	width: 100%;
+	height: 80px;
 	margin-bottom: 10px;
 	
 }
@@ -411,6 +410,10 @@ h3 {
 	color: lightgrey;
 }
 
+.fa-regular.fa-image { 
+	margin-top: 15px;
+}
+
   .preview-image {
     max-width: 100%;
     max-height: 100%;
@@ -429,6 +432,7 @@ h3 {
     flex-direction: column;
     align-items: center;
 	margin-bottom: 15px;	
+	
 }
 
 #formPhoto img { 
@@ -483,7 +487,7 @@ h3 {
     border: none;
     box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 	font-family: "Work Sans";
-	margin: 10px 0px 30px 0px;
+	margin: 10px 0px 35px 0px;
 }
 
 
@@ -511,9 +515,9 @@ h3 {
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 12px;
-	padding: 10px 25px;
+	padding: 10px 50px;
 	display: flex;
-	margin-bottom: 20px;
+	margin: 15px;
 	border: none;
 	
 }
