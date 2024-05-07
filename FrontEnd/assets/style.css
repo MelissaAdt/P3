@@ -124,7 +124,7 @@ li:hover {
 }
 #portfolio h2 {
 	text-align: center;
-	margin-bottom: 1em;
+	margin: 50px 15px 40px 40px;
 }
 .gallery {
 	width: 100%;
@@ -132,10 +132,12 @@ li:hover {
 	grid-template-columns: 1fr 1fr 1fr;
 	grid-column-gap: 20px;
 	grid-row-gap: 20px;
+	margin-top: 40px;
 }
 
 .gallery img {
 	width: 100%;
+	margin-bottom: 8px;
 
 }
 #contact,
@@ -228,7 +230,7 @@ footer nav ul {
 	background-color: white;
 	border-radius: 20px;
 	border-color:#1D6154 ;
-	border-width: 1px;
+	border-width: 1.5px;
 	font-family: 'Syne';
 	font-weight: 700;
 	font-size: 15px;
@@ -276,12 +278,12 @@ footer nav ul {
 
 
 .fa-pen-to-square:before { 
-	padding-right: 5px;
+	padding-right: 7px;
 }
 
 
 #js-modal {
-    margin: 13px 10px;
+	margin: 60px 10px;
 	display: flex;
 	flex-direction: row-reverse;
 	color: black;
